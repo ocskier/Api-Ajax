@@ -45,12 +45,13 @@
                         
                         </div>
                         <div id="add-container" class="col-4">    
-                                <form>
+                                <form id = "searchForm" onSubmit="return false;"> 
                                     <div class="form-group">
                                         <label style="color: rgb(192, 117, 117); font-weight: bolder;" for="exampleFormControlInput1">New Sport</label>
-                                        <input type="text" class="form-control" id="add-sport" placeholder="">
+                                        <input type="text" class="form-control" placeholder="">
                                     </div>
-                                    <button type="submit" class="btn btn-primary submit-btn">Submit</button>
+                                    <button id="searchBtn" type="submit" class="btn btn-primary">Submit</button>
+                                    <button id="clearBtn" type="submit" class="btn btn-primary">Clear</button>
                                 </form>
                         </div>
                 </div> 
