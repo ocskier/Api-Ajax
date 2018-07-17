@@ -34,7 +34,7 @@ function makeFav () {
     btn.attr("id","index-"+lengthGifList+'"');
     btn.attr("data", lengthGifList);
     btn.attr("class","favorite");
-    btn.append('<img src="assets/images/favsymbol.jpg">');
+    btn.append('<img src="assets/images/favsymbol.jpg" class="img-fluid">');
     return btn;
 }
 
@@ -52,22 +52,24 @@ function queryGiphy (cat) {
         for (i=0;i<response.data.length;i++){
             giphyGifPos++;
             lengthGifList++;
-            var newGifDiv = $('<div class="gif-card" id="index-'+lengthGifList+'">');
+            var newGifDiv = $('<div class="card gif-card" id="index-'+lengthGifList+'">');
             newGifDiv.append(makeFav());
             newGifDiv.append(makeBtn());
-            newGifDiv.append('<img src="'+response.data[i].images.original.url+'" width="270" height="200" frameBorder="0" class = "my-img" data-animate="'+response.data[i].images.original.url+'" data-still="'+response.data[i].images.original_still.url+'" data-state="animate" allowFullScreen></iframe>');
+            newGifDiv.append('<img src="'+response.data[i].images.original.url+'" frameBorder="0" class = "card-img-top my-img" data-animate="'+response.data[i].images.original.url+'" data-still="'+response.data[i].images.original_still.url+'" data-state="animate" allowFullScreen></iframe>');
+            var newGifCardBody = $('<div class="card-body mycardbody">'); 
             if (response.data[i].title==""){
-                newGifDiv.append("<p>Untitled</p>");
+                newGifCardBody.append('<p class="card-text myp">Untitled</p>');
             }
             else {
-                newGifDiv.append('<p>'+response.data[i].title+'</p>');    
+                newGifCardBody.append('<p class="card-text myp">'+response.data[i].title+'</p>');    
             }
             if (response.data[i].rating==""){
-                newGifDiv.append("<p>Rating: NR</p>");
+                newGifCardBody.append('<p class="card-text myp">Rating: NR</p>');
             }
             else {
-                newGifDiv.append('<p>Rating: '+response.data[i].rating.toUpperCase()+'</p>');
+                newGifCardBody.append('<p class="card-text myp">Rating: '+response.data[i].rating.toUpperCase()+'</p>');
             }
+            newGifDiv.append(newGifCardBody);
             $("#gif-container").append(newGifDiv);
         }
     });            
@@ -110,17 +112,19 @@ function tenorCallback_search(responsetext)
     for (i=0;i<top_6_gifs.length;i++){
         tenorGifPos++;
         lengthGifList++;
-        var newGifDiv = $('<div class="gif-card" id="index-'+lengthGifList+'">');
+        var newGifDiv = $('<div class="card gif-card" id="index-'+lengthGifList+'">');
         newGifDiv.append(makeFav());
         newGifDiv.append(makeBtn());
-        newGifDiv.append('<img src="'+top_6_gifs[i].media[0].gif.url+'" width="270" height="200" frameBorder="0" class = "my-img" data-animate="'+top_6_gifs[i].media[0].gif.url+'" data-still="'+top_6_gifs[i].media[0].gif.preview+'" data-state="animate" allowFullScreen></iframe>');
+        newGifDiv.append('<img src="'+top_6_gifs[i].media[0].gif.url+'" frameBorder="0" class = "card-img-top my-img" data-animate="'+top_6_gifs[i].media[0].gif.url+'" data-still="'+top_6_gifs[i].media[0].gif.preview+'" data-state="animate" allowFullScreen></iframe>');
+        var newGifCardBody = $('<div class="card-body mycardbody">');
         if (top_6_gifs[i].title==""){
-            newGifDiv.append("<p>Untitled</p>");
+            newGifCardBody.append('<p class="card-text myp">Untitled</p>');
         }
         else {
-            newGifDiv.append('<p>'+top_6_gifs[i].title+'</p>');
+            newGifCardBody.append('<p class="card-text myp">'+top_6_gifs[i].title+'</p>');
         }
-        newGifDiv.append("<p>Rating: NR</p>");
+        newGifCardBody.append('<p class="card-text myp">Rating: NR</p>');
+        newGifDiv.append(newGifCardBody);
         $("#gif-container").append(newGifDiv);
     }
 
@@ -186,14 +190,14 @@ $(".gif-class").on("click", ".checkbox", function () {
 $(".gif-class").on("click", ".favorite", function () {
     var isFavsActivated = $("#fav-container").attr("favs-activated"); 
     if (isFavsActivated == "false") {
-        $("#fav-container").append('<h2 style="color: black;">Favorites</h2>');
+        $("#fav-container").prepend('<div class="row alert alert-primary" role="alert" style="background: lightgray;color: black;">Favorites</div>');
         $("#fav-container").attr("favs-activated","true");
     }
     var indexClicked = $(this).attr("data");
     this.remove();
     var copyCard = $("#index-"+indexClicked);
     $("#index-"+indexClicked).remove();
-    $("#fav-container").append(copyCard);
+    $("#fav-gifs").append(copyCard);
 });
 
 $("#clearBtn").on("click", function () {

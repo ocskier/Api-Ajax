@@ -42,19 +42,23 @@
                         
                         </div>
                 </div>
-                <br><br> 
+                <br> 
                 
                 <div class="row justify-content-center">
                         <div class="col-">    
                         
                             </div>
-                        <div id = "fav-container" class="col-9 gif-class" favs-activated = "false">    
-                        
+                        <div id = "fav-container" class="col-8 col-md-9" favs-activated = "false">    
+                            <div class="row justify-content-center">
+                                <div id="fav-gifs" class="col-12 gif-class">
+
+                                </div>
+                            </div>
                         </div>
-                        <div id="add-container" class="col-2">    
+                        <div id="add-container" class="col-3 col-md-2">    
                                 <form id = "searchForm" onSubmit="return false;"> 
                                     <div class="form-group">
-                                        <label style="color: rgb(192, 117, 117); font-weight: bolder;" for="exampleFormControlInput1">New Sport</label>
+                                        <label style="color: rgb(192, 117, 117); font-weight: bolder;line-height: 1.4;" for="exampleFormControlInput1">New Sport</label>
                                         <input type="text" class="form-control" placeholder="">
                                     </div>
                                     <button id="searchBtn" type="submit" class="btn btn-primary">Submit</button>
@@ -62,12 +66,13 @@
                                 </form>
                         </div>
                 </div> 
-
+                <br>
+                <div class="row justify-content-center alert alert-primary" role="alert" style="margin:25px auto 0;width:80%;">Search Results</div>
                 <div class="row justify-content-center" style="margin-top: 20px;">
                         <div class="col-">    
                         
                             </div>
-                        <div id="gif-container" class="col-9 gif-class">    
+                        <div id="gif-container" class="col-10 col-md-9 gif-class">    
                         
                         </div>
                         <div class="col-">    
