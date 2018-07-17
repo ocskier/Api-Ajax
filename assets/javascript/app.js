@@ -18,6 +18,8 @@ for (i=middle; i <topics.length;i++) {
 
 var lengthGifSearch;
 var lengthGifList=0;
+var tenorGifPos = 0;
+var giphyGifPos = 0;
 
 function makeBtn () {
     var btn = $("<button></button>");
@@ -37,8 +39,9 @@ function makeFav () {
 }
 
 function queryGiphy (cat) {
+
     var queryURL = "https://api.giphy.com/v1/gifs/search?q=" +
-    cat + "&api_key=dc6zaTOxFJmzC&limit=10";
+    cat + "&api_key=dc6zaTOxFJmzC&limit=6&offset=" + giphyGifPos;
 
     $.ajax({
         url: queryURL,
@@ -47,17 +50,101 @@ function queryGiphy (cat) {
         console.log(response);
         lengthGifSearch=response.data.length;
         for (i=0;i<response.data.length;i++){
+            giphyGifPos++;
             lengthGifList++;
             var newGifDiv = $('<div class="gif-card" id="index-'+lengthGifList+'">');
             newGifDiv.append(makeFav());
             newGifDiv.append(makeBtn());
             newGifDiv.append('<img src="'+response.data[i].images.original.url+'" width="270" height="200" frameBorder="0" class = "my-img" data-animate="'+response.data[i].images.original.url+'" data-still="'+response.data[i].images.original_still.url+'" data-state="animate" allowFullScreen></iframe>');
-            newGifDiv.append('<p>'+response.data[i].title+'</p>');
-            newGifDiv.append('<p>Rating: '+response.data[i].rating+'</p>');
+            if (response.data[i].title==""){
+                newGifDiv.append("<p>Untitled</p>");
+            }
+            else {
+                newGifDiv.append('<p>'+response.data[i].title+'</p>');    
+            }
+            if (response.data[i].rating==""){
+                newGifDiv.append("<p>Rating: NR</p>");
+            }
+            else {
+                newGifDiv.append('<p>Rating: '+response.data[i].rating.toUpperCase()+'</p>');
+            }
             $("#gif-container").append(newGifDiv);
         }
     });            
 }
+
+// url Async requesting function
+function httpGetAsync(theUrl, callback)
+{
+    // create the request object
+    var xmlHttp = new XMLHttpRequest();
+
+    // set the state change callback to capture when the response comes in
+    xmlHttp.onreadystatechange = function()
+    {
+        if (xmlHttp.readyState == 4 && xmlHttp.status == 200)
+        {
+            callback(xmlHttp.responseText);
+        }
+    }
+
+    // open as a GET call, pass in the url and set async = True
+    xmlHttp.open("GET", theUrl, true);
+
+    // call send with no params as they were passed in on the url string
+    xmlHttp.send(null);
+
+    return;
+}
+
+// callback for the top 6 GIFs of search
+function tenorCallback_search(responsetext)
+{
+    // parse the json response
+    var response_objects = JSON.parse(responsetext);
+
+    top_6_gifs = response_objects["results"];
+    lengthGifSearch=lengthGifSearch+top_6_gifs.length;
+    console.log(top_6_gifs);
+    console.log(lengthGifSearch);
+    for (i=0;i<top_6_gifs.length;i++){
+        tenorGifPos++;
+        lengthGifList++;
+        var newGifDiv = $('<div class="gif-card" id="index-'+lengthGifList+'">');
+        newGifDiv.append(makeFav());
+        newGifDiv.append(makeBtn());
+        newGifDiv.append('<img src="'+top_6_gifs[i].media[0].gif.url+'" width="270" height="200" frameBorder="0" class = "my-img" data-animate="'+top_6_gifs[i].media[0].gif.url+'" data-still="'+top_6_gifs[i].media[0].gif.preview+'" data-state="animate" allowFullScreen></iframe>');
+        if (top_6_gifs[i].title==""){
+            newGifDiv.append("<p>Untitled</p>");
+        }
+        else {
+            newGifDiv.append('<p>'+top_6_gifs[i].title+'</p>');
+        }
+        newGifDiv.append("<p>Rating: NR</p>");
+        $("#gif-container").append(newGifDiv);
+    }
+
+    return;
+
+}
+
+function callTenor (cat) {
+
+    // set the apikey and limit
+    var apikey = "TKE2YUWVIGXK";
+    var lmt = 6;
+
+    // test search term
+    var search_term = cat;
+
+    // using default locale of en_US
+    var search_url = "https://api.tenor.com/v1/search?tag=" + search_term + "&key=" +
+            apikey + "&limit=" + lmt + "&pos=" + tenorGifPos;
+    console.log(tenorGifPos);
+
+    httpGetAsync(search_url,tenorCallback_search);
+}
+
 
 $('#btn-container').append(newBtnGrp);
 $('#addbtn-container').append(addNewBtnGrp);
@@ -66,18 +153,21 @@ $(".mybtngrp").on("click",".topic-btn",function() {
     
     var chosenTopic = $(this).attr("data-topic");
     queryGiphy(chosenTopic);
+    callTenor(chosenTopic);
 });
 
 $(".myaddbtngrp").on("click",".topic-btn",function() {
     $("#gif-container").empty();
     var chosenTopic = $(this).attr("data-topic");
     queryGiphy(chosenTopic);
+    callTenor(chosenTopic);
 });
 
 $("#searchBtn").on("click", function () {
     var newTopic = $('input').val(); 
     if (!(newTopic == "")) {
         queryGiphy(newTopic);
+        callTenor(newTopic);
         setTimeout(function() { 
             if (!(lengthGifSearch===0)) {
                 var newBtn = $('<button type="button" class="btn btn-info topic-btn" style="font-size: 14px; margin: 2px 3px;" data-topic="'+newTopic+'">'+newTopic+'</button>');
