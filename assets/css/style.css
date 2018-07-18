@@ -86,7 +86,7 @@ ul li:first-child {
 }
 
 section {
-    padding-top: 130px;
+    padding-top: 138px;
     padding-bottom: 25px;
     min-height: calc(100vh - 70px);
     justify-content: space-evenly;
@@ -170,11 +170,12 @@ section {
         height: 28px;
     }
     #searchBtn, #clearBtn{
-        font-size: 15px;
+        font-size: 14px;
+        padding: .20rem .25rem;
     }
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 792px) {
     
     #fav-container{
         padding-right: 10px;

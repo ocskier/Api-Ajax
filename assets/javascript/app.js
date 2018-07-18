@@ -190,7 +190,7 @@ $(".gif-class").on("click", ".checkbox", function () {
 $(".gif-class").on("click", ".favorite", function () {
     var isFavsActivated = $("#fav-container").attr("favs-activated"); 
     if (isFavsActivated == "false") {
-        $("#fav-container").prepend('<div class="row alert alert-primary" role="alert" style="background: lightgray;color: black;">Favorites</div>');
+        $("#fav-container").prepend('<div class="row alert alert-primary" role="alert" style="background: lightgray;color: black;width:80%; margin-left:25px;">Favorites</div>');
         $("#fav-container").attr("favs-activated","true");
     }
     var indexClicked = $(this).attr("data");
