@@ -1,26 +1,31 @@
+// An array for the preselected sports categories
 var topics = ["Basketball","Baseball","Football","Hockey","Golf","Tennis","Swimming",
                 "Nascar","Horse Racing","Soccer","Snow Skiing","Water Skiing","Surfing",
                 "Kite Surfing","Fishing","Sailing","Badminton","Ping Pong"];
 
 
-
+// Variables to hold the two button groups
 var newBtnGrp = $('<div class="btn-group btn-group-sm mybtngrp" role="group" aria-label="Basic example">');
 var addNewBtnGrp = $('<div class="btn-group btn-group-sm myaddbtngrp" role="group" aria-label="Basic example">');
 
+// Half the array of buttons for looks
 var middle = Math.floor(topics.length/2);
 for (i=0; i <middle;i++) {
     newBtnGrp.append('<button type="button" class="btn btn-info topic-btn" style="font-size: 14px; margin: 2px 3px;" data-topic="'+topics[i]+'">'+topics[i]+'</button>');
 }
+// Append each button in order
 newBtnGrp.append('<br>');
 for (i=middle; i <topics.length;i++) {
     newBtnGrp.append('<button type="button" class="btn btn-info topic-btn" style="font-size: 14px; margin: 2px 3px;" data-topic="'+topics[i]+'">'+topics[i]+'</button>');
 }
 
+// Variables for length of search query, total search length, and position within the database list
 var lengthGifSearch;
 var lengthGifList=0;
 var tenorGifPos = 0;
 var giphyGifPos = 0;
 
+// F(x) for making a checkbox 
 function makeBtn () {
     var btn = $("<button></button>");
     btn.attr("id","index-"+lengthGifList+'"');
@@ -29,6 +34,7 @@ function makeBtn () {
     btn.text("X");
     return btn;
 }
+// F(x) for making a favorites button
 function makeFav () {
     var btn = $("<button></button>");
     btn.attr("id","index-"+lengthGifList+'"');
@@ -38,6 +44,7 @@ function makeFav () {
     return btn;
 }
 
+// Query the Giphy API using the category chosen for 6 gifs
 function queryGiphy (cat) {
 
     var queryURL = "https://api.giphy.com/v1/gifs/search?q=" +
@@ -49,9 +56,13 @@ function queryGiphy (cat) {
         }).then(function(response) {
         console.log(response);
         lengthGifSearch=response.data.length;
+        // write all the gifs that were returned 
         for (i=0;i<response.data.length;i++){
+            // increment the spot in the database list 
             giphyGifPos++;
+            // Increment the total search length by the number returned
             lengthGifList++;
+            // Write a new Gif card to window with the gif checkbox and fav buttons
             var newGifDiv = $('<div class="card gif-card" id="index-'+lengthGifList+'">');
             newGifDiv.append(makeFav());
             newGifDiv.append(makeBtn());
@@ -99,19 +110,23 @@ function httpGetAsync(theUrl, callback)
     return;
 }
 
-// callback for the top 6 GIFs of search
+// callback for Tenor API for 6 gifs
 function tenorCallback_search(responsetext)
 {
     // parse the json response
     var response_objects = JSON.parse(responsetext);
 
     top_6_gifs = response_objects["results"];
+    // Add the number of gifs returned to the Giphy count
     lengthGifSearch=lengthGifSearch+top_6_gifs.length;
     console.log(top_6_gifs);
-    console.log(lengthGifSearch);
+    // write all the gifs that were returned 
     for (i=0;i<top_6_gifs.length;i++){
+        // increment the spot in the database list 
         tenorGifPos++;
+        // Increment the total search length by the number returned
         lengthGifList++;
+        // Write a new Gif card to window with the gif checkbox and fav buttons
         var newGifDiv = $('<div class="card gif-card" id="index-'+lengthGifList+'">');
         newGifDiv.append(makeFav());
         newGifDiv.append(makeBtn());
@@ -132,6 +147,7 @@ function tenorCallback_search(responsetext)
 
 }
 
+// Setting the Tenor API url and passing the category for searching
 function callTenor (cat) {
 
     // set the apikey and limit
@@ -149,26 +165,29 @@ function callTenor (cat) {
     httpGetAsync(search_url,tenorCallback_search);
 }
 
-
+// Write the preselected sports category buttons to window and the added button container
 $('#btn-container').append(newBtnGrp);
 $('#addbtn-container').append(addNewBtnGrp);
 
+// Click event handler for clicking any preselected category 
 $(".mybtngrp").on("click",".topic-btn",function() {
-    
+    // Choose the topic and query the topic
     var chosenTopic = $(this).attr("data-topic");
     queryGiphy(chosenTopic);
     callTenor(chosenTopic);
 });
-
+// Click event handler for clicking a user generated category 
 $(".myaddbtngrp").on("click",".topic-btn",function() {
-    $("#gif-container").empty();
+    // Query the user topic
     var chosenTopic = $(this).attr("data-topic");
     queryGiphy(chosenTopic);
     callTenor(chosenTopic);
 });
 
+// Click event handler for entering a search category 
 $("#searchBtn").on("click", function () {
     var newTopic = $('input').val(); 
+    // If the search field is invalid dont write a new button or call Giphy
     if (!(newTopic == "")) {
         queryGiphy(newTopic);
         callTenor(newTopic);
@@ -179,31 +198,40 @@ $("#searchBtn").on("click", function () {
             }
         },2500);
     }
+    // Clear the search input field
     $('input').val("");
 }); 
 
+// Click handler for clearing a gif from checkbox
 $(".gif-class").on("click", ".checkbox", function () {
     var indexClicked = $(this).attr("data");
     $("#index-"+indexClicked).remove();
 });
 
+// Click handler for adding a gif to favorites
 $(".gif-class").on("click", ".favorite", function () {
+    // Add the favorites header if the first time 
     var isFavsActivated = $("#fav-container").attr("favs-activated"); 
     if (isFavsActivated == "false") {
         $("#fav-container").prepend('<div class="row alert alert-primary" role="alert" style="background: lightgray;color: black;width:80%; margin-left:25px;">Favorites</div>');
         $("#fav-container").attr("favs-activated","true");
     }
+    // Grab the index info
     var indexClicked = $(this).attr("data");
+    // Remove the gif from search
     this.remove();
+    // Copy it to favorites container
     var copyCard = $("#index-"+indexClicked);
     $("#index-"+indexClicked).remove();
     $("#fav-gifs").append(copyCard);
 });
 
+// Click handler for clearing the search results
 $("#clearBtn").on("click", function () {
     $("#gif-container").empty();
 });
 
+// Click handler for stopping  and starting the gifs 
 $(".gif-class").on("click",".my-img",function() {
 
     // The attr jQuery method allows us to get or set the value of any attribute on our HTML element
