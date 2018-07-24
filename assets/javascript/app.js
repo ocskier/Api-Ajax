@@ -11,12 +11,12 @@ var addNewBtnGrp = $('<div class="btn-group btn-group-sm myaddbtngrp" role="grou
 // Half the array of buttons for looks
 var middle = Math.floor(topics.length/2);
 for (i=0; i <middle;i++) {
-    newBtnGrp.append('<button type="button" class="btn btn-info topic-btn" style="font-size: 14px; margin: 2px 3px;" data-topic="'+topics[i]+'">'+topics[i]+'</button>');
+    newBtnGrp.append('<button type="button" class="btn btn-info topic-btn shadow-lg mb-3 rounded" style="font-size: 14px; margin: 2px 3px;" data-topic="'+topics[i]+'">'+topics[i]+'</button>');
 }
 // Append each button in order
 newBtnGrp.append('<br>');
 for (i=middle; i <topics.length;i++) {
-    newBtnGrp.append('<button type="button" class="btn btn-info topic-btn" style="font-size: 14px; margin: 2px 3px;" data-topic="'+topics[i]+'">'+topics[i]+'</button>');
+    newBtnGrp.append('<button type="button" class="btn btn-info topic-btn shadow-none mb-3 rounded" style="font-size: 14px; margin: 2px 3px;" data-topic="'+topics[i]+'">'+topics[i]+'</button>');
 }
 
 // Variables for length of search query, total search length, and position within the database list
@@ -63,7 +63,7 @@ function queryGiphy (cat) {
             // Increment the total search length by the number returned
             lengthGifList++;
             // Write a new Gif card to window with the gif checkbox and fav buttons
-            var newGifDiv = $('<div class="card gif-card" id="index-'+lengthGifList+'">');
+            var newGifDiv = $('<div class="card gif-card hoverable" id="index-'+lengthGifList+'">');
             newGifDiv.append(makeFav());
             newGifDiv.append(makeBtn());
             newGifDiv.append('<img src="'+response.data[i].images.original.url+'" frameBorder="0" class = "card-img-top my-img" data-animate="'+response.data[i].images.original.url+'" data-still="'+response.data[i].images.original_still.url+'" data-state="animate" allowFullScreen></iframe>');
@@ -193,7 +193,7 @@ $("#searchBtn").on("click", function () {
         callTenor(newTopic);
         setTimeout(function() { 
             if (!(lengthGifSearch===0)) {
-                var newBtn = $('<button type="button" class="btn btn-info topic-btn" style="font-size: 14px; margin: 2px 3px;" data-topic="'+newTopic+'">'+newTopic+'</button>');
+                var newBtn = $('<button type="button" class="btn btn-info topic-btn shadow mb-3 rounded" style="font-size: 14px; margin: 2px 3px;" data-topic="'+newTopic+'">'+newTopic+'</button>');
                 $(".myaddbtngrp").append(newBtn);
             }
         },2500);
