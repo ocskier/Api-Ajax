@@ -173,6 +173,7 @@ $('#addbtn-container').append(addNewBtnGrp);
 $(".mybtngrp").on("click",".topic-btn",function() {
     // Choose the topic and query the topic
     var chosenTopic = $(this).attr("data-topic");
+    $('#gif-container').empty();
     queryGiphy(chosenTopic);
     callTenor(chosenTopic);
 });
@@ -180,6 +181,7 @@ $(".mybtngrp").on("click",".topic-btn",function() {
 $(".myaddbtngrp").on("click",".topic-btn",function() {
     // Query the user topic
     var chosenTopic = $(this).attr("data-topic");
+    $('#gif-container').empty();
     queryGiphy(chosenTopic);
     callTenor(chosenTopic);
 });
@@ -189,6 +191,7 @@ $("#searchBtn").on("click", function () {
     var newTopic = $('input').val(); 
     // If the search field is invalid dont write a new button or call Giphy
     if (!(newTopic == "")) {
+        $('#gif-container').empty();
         queryGiphy(newTopic);
         callTenor(newTopic);
         setTimeout(function() { 
