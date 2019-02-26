@@ -10,13 +10,15 @@ var addNewBtnGrp = $('<div class="btn-group btn-group-sm myaddbtngrp" role="grou
 
 // Half the array of buttons for looks
 var middle = Math.floor(topics.length/2);
-for (i=0; i <middle;i++) {
-    newBtnGrp.append('<button type="button" class="btn btn-info topic-btn shadow-lg mb-3 rounded" style="font-size: 14px; margin: 2px 3px;" data-topic="'+topics[i]+'">'+topics[i]+'</button>');
+
+for (let i = 0; i < middle; i++) {
+    newBtnGrp.append(makeCatBtn(topics[i]));
 }
 // Append each button in order
 newBtnGrp.append('<br>');
-for (i=middle; i <topics.length;i++) {
-    newBtnGrp.append('<button type="button" class="btn btn-info topic-btn shadow-none mb-3 rounded" style="font-size: 14px; margin: 2px 3px;" data-topic="'+topics[i]+'">'+topics[i]+'</button>');
+
+for (i=middle; i <topics.length;i++) {    
+    newBtnGrp.append(makeCatBtn(topics[i]));
 }
 
 // Variables for length of search query, total search length, and position within the database list
@@ -25,14 +27,23 @@ var lengthGifList=0;
 var tenorGifPos = 0;
 var giphyGifPos = 0;
 
+function makeCatBtn(topic) {    
+        var newBtn = $('<button type="button"></button>');
+        newBtn.addClass("btn btn-info topic-btn shadow-lg mb-3 rounded");
+        newBtn.css({ "font-size": "14px", "margin": "2px 3px" });
+        newBtn.attr("data-topic", topic);
+        newBtn.text(topic);
+        return newBtn
+}
+
 // F(x) for making a checkbox 
-function makeBtn () {
+function makeChkBox () {
     var btn = $("<button></button>");
     btn.attr("id","index-"+lengthGifList+'"');
     btn.attr("data", lengthGifList);
     btn.attr("class","checkbox");
     btn.text("X");
-    return btn;
+    return btn
 }
 // F(x) for making a favorites button
 function makeFav () {
@@ -41,7 +52,7 @@ function makeFav () {
     btn.attr("data", lengthGifList);
     btn.attr("class","favorite");
     btn.append('<img src="assets/images/favsymbol.jpg" class="img-fluid">');
-    return btn;
+    return btn
 }
 
 // Query the Giphy API using the category chosen for 6 gifs
@@ -65,7 +76,7 @@ function queryGiphy (cat) {
             // Write a new Gif card to window with the gif checkbox and fav buttons
             var newGifDiv = $('<div class="card gif-card hoverable" id="index-'+lengthGifList+'">');
             newGifDiv.append(makeFav());
-            newGifDiv.append(makeBtn());
+            newGifDiv.append(makeChkBox());
             newGifDiv.append('<img src="'+response.data[i].images.original.url+'" frameBorder="0" class = "card-img-top my-img" data-animate="'+response.data[i].images.original.url+'" data-still="'+response.data[i].images.original_still.url+'" data-state="animate" allowFullScreen></iframe>');
             var newGifCardBody = $('<div class="card-body mycardbody">'); 
             if (response.data[i].title==""){
@@ -129,7 +140,7 @@ function tenorCallback_search(responsetext)
         // Write a new Gif card to window with the gif checkbox and fav buttons
         var newGifDiv = $('<div class="card gif-card" id="index-'+lengthGifList+'">');
         newGifDiv.append(makeFav());
-        newGifDiv.append(makeBtn());
+        newGifDiv.append(makeChkBox());
         newGifDiv.append('<img src="'+top_6_gifs[i].media[0].gif.url+'" frameBorder="0" class = "card-img-top my-img" data-animate="'+top_6_gifs[i].media[0].gif.url+'" data-still="'+top_6_gifs[i].media[0].gif.preview+'" data-state="animate" allowFullScreen></iframe>');
         var newGifCardBody = $('<div class="card-body mycardbody">');
         if (top_6_gifs[i].title==""){

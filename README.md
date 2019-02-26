@@ -10,14 +10,14 @@ Giphy Homework
 
 * The app starts with a preselected amount of buttons with sports activities
 
-* The user will then either click on a preselected sport or enter a new one in 
+* The user will then either click on a preselected sport or enter a new one in
 
     the search field
-   
+
 * If the user picks one and it is a valid search term or not empty then the search
     will commence and a new button will be added
 
-* The app will pull random gifs from either Giphy or Tenor 
+* The app will pull random gifs from either Giphy or Tenor
 
 * The user can clear all search gifs from the button
 
