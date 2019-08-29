@@ -24,4 +24,4 @@
 
 * All gifs can be paused or restarted by clicking on the gif
 
-* Have fun! This game can also be found in my portfolio @ https://ocskier.github.io/Bootstrap-Portfolio/portfolio.html
+* Have fun! This game can also be found in my portfolio @ https://ocskier.github.io/JRJ-Folio.html
