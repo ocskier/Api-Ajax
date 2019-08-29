@@ -2,7 +2,7 @@
 
 Giphy Homework
 
-* [`index.html] (Api-Ajax-Hw/index.html)
+* [`index.html] (Api-Ajax/index.html)
 
 ## Instructions
 
