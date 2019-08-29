@@ -1,6 +1,4 @@
-# Api-Ajax-Hw
-
-Giphy Homework
+# Api-Ajax
 
 * [`index.html] (Api-Ajax/index.html)
 
