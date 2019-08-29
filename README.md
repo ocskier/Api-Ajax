@@ -1,10 +1,10 @@
 # Api-Ajax-Hw
-Giphy Homework
 
+Giphy Homework
 
 * [`index.html] (Api-Ajax-Hw/index.html)
 
-### Instructions
+## Instructions
 
 * This is an app for searching multiple databases for sports related gifs
 
@@ -25,4 +25,4 @@ Giphy Homework
 
 * All gifs can be paused or restarted by clicking on the gif
 
-* Have fun! This game can also be found in my portfolio @ https://ocskier.github.io/Bootstrap-Portfolio/portfolio.html
+* Have fun! This game can also be found in my portfolio @ <https://ocskier.github.io/JRJ-Folio>
