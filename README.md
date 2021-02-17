@@ -1,6 +1,6 @@
 # Api-Ajax
 
-* [`index.html] (Api-Ajax/index.html)
+* [index.html](https://github.com/ocskier/Api-Ajax/blob/master/assets/images/grey_wash_wall.png)
 
 ## Instructions
 
